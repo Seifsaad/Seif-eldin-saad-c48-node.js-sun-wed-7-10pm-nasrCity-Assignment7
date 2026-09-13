@@ -36,13 +36,22 @@ const db = require('../../common/db/mongodb')
 
 
 async function insertDoc(newDoc) {
-    return await db.collection('books').insertOne({
-        data: newDoc
-    })
+    return await db.collection('books').insertOne(newDoc)
 }
 
+async function insertMultiDocs(newDocs){
+    return await db.collection('books').insertMany(newDocs)
+}
+
+async function updateDoc(title,year) {
+    return await db.collection('books').updateOne({
+        title: title
+    },{$set: {year: year}})
+}
 
 
 module.exports = {
     insertDoc,
+    insertMultiDocs,
+    updateDoc,
 }
