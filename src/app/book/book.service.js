@@ -1,4 +1,5 @@
 const bookRepository = require('./book.repository')
+const {getBooksByTitle, getBooksByYear} = require("./book.repository");
 
 async function insertDoc(newDoc) {
     return await bookRepository.insertDoc(newDoc)
@@ -12,8 +13,19 @@ async function updateDoc(title,year) {
     return await bookRepository.updateDoc(title,year)
 }
 
+async function getBookByTitle(title) {
+    return await bookRepository.getBooksByTitle()
+}
+
+async function getBookBetween(from,to){
+    return await bookRepository.getBooksByYear(from,to)
+}
+
 module.exports = {
     insertDoc,
     insertMultiDocs,
     updateDoc,
+    getBooksByTitle,
+    getBooksByYear,
+
 }

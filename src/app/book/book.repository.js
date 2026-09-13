@@ -49,9 +49,23 @@ async function updateDoc(title,year) {
     },{$set: {year: year}})
 }
 
+async function getBooksByTitle(title) {
+     return await db.collection('books').findOne({
+         title: title
+     })
+}
+
+async function getBooksByYear(from,to) {
+    return await db.collection('books').find(
+        {
+            year: {$gte: from, $lte: to}
+        }).toArray();
+}
 
 module.exports = {
     insertDoc,
     insertMultiDocs,
     updateDoc,
+    getBooksByTitle,
+    getBooksByYear
 }
