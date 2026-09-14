@@ -39,33 +39,62 @@ async function insertDoc(newDoc) {
     return await db.collection('books').insertOne(newDoc)
 }
 
-async function insertMultiDocs(newDocs){
+async function insertMultiDocs(newDocs) {
     return await db.collection('books').insertMany(newDocs)
 }
 
-async function updateDoc(title,year) {
+async function updateDoc(title, year) {
     return await db.collection('books').updateOne({
         title: title
-    },{$set: {year: year}})
+    }, {$set: {year: year}})
 }
 
 async function getBooksByTitle(title) {
-     return await db.collection('books').findOne({
-         title: title
-     })
+    return await db.collection('books').findOne({
+        title: title
+    })
 }
 
-async function getBooksByYear(from,to) {
+async function getBooksByYear(from, to) {
     return await db.collection('books').find(
         {
             year: {$gte: from, $lte: to}
         }).toArray();
 }
 
+async function getBooksByGenre(genre) {
+    return await db.collection('books').find(
+        {
+            genres: genre
+        }).toArray();
+}
+
+async function getBooksSkipLimit() {
+    return await db.collection('books').find().skip(2).limit(3).toArray()
+}
+
+async function getBooksYearInt() {
+    return await db.collection('books').find({
+        year: {$type: "int"}
+    }).toArray();
+}
+
+async function getBooksExcludeGenres(){
+    return await db.collection('books').find({
+        genres:{$nin:["horror","science fiction"]}
+    }).toArray()
+}
+
+
 module.exports = {
     insertDoc,
     insertMultiDocs,
     updateDoc,
     getBooksByTitle,
-    getBooksByYear
+    getBooksByYear,
+    getBooksByGenre,
+    getBooksSkipLimit,
+    getBooksYearInt,
+    getBooksExcludeGenres,
+
 }

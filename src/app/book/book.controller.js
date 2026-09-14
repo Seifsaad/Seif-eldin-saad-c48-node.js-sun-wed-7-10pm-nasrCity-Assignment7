@@ -44,9 +44,45 @@ const getBooksByYear = async function (req, res, next) {
         let {from,to}= req.query;
         from = Number(from);
         to = Number(to);
-        console.log(from,to);
         const books = await bookService.getBooksByYear(from,to);
-        res.status(201).json({message: "Book info got successfully",success:true,data:books });
+        res.status(201).json({message: "Books info got successfully",success:true,data:books });
+    }catch (err){
+        next(err);
+    }
+}
+
+const getBooksByGenre = async function (req, res, next) {
+    try {
+        const {genre}= req.query;
+        const books = await bookService.getBooksByGenre(genre);
+        res.status(200).json({message: "Books info got successfully",success:true,data:books });
+    }catch (err){
+        next(err);
+    }
+}
+
+const getBooksSkipLimit = async function (req, res, next) {
+    try {
+        const books = await bookService.getBooksSkipLimit();
+        res.status(200).json({message: "Books info got successfully",success:true,data:books });
+    }catch (err){
+        next(err);
+    }
+}
+
+const getBooksYearInt = async function (req, res, next) {
+    try {
+        const books = await bookService.getBooksYearInt();
+        res.status(200).json({message: "Books info got successfully",success:true,data:books });
+    }catch (err){
+        next(err);
+    }
+}
+
+const getBooksExcludeGenres = async function (req, res, next) {
+    try {
+        const books = await bookService.getBooksExcludeGenres();
+        res.status(200).json({message: "Books info got successfully",success:true,data:books });
     }catch (err){
         next(err);
     }
@@ -58,4 +94,9 @@ module.exports = {
     updateDoc,
     getBooksByTitle,
     getBooksByYear,
+    getBooksByGenre,
+    getBooksSkipLimit,
+    getBooksYearInt,
+    getBooksExcludeGenres,
+
 }
