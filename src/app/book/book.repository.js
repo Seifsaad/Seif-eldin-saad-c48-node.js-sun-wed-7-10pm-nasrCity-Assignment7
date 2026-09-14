@@ -79,12 +79,57 @@ async function getBooksYearInt() {
     }).toArray();
 }
 
-async function getBooksExcludeGenres(){
+async function getBooksExcludeGenres() {
     return await db.collection('books').find({
-        genres:{$nin:["horror","science fiction"]}
+        genres: {$nin: ["horror", "science fiction"]}
     }).toArray()
 }
 
+async function deleteBookByYear(year) {
+    return await db.collection('books').deleteMany({
+        year: {$lt: year}
+    })
+}
+
+async function filterBooksByYear() {
+    return await db.collection('books').aggregate([
+        {$match: {year: {$gt: 2000}}},
+        {$sort: {year: -1}}
+    ]).toArray();
+}
+
+async function aggregateBooksInclude() {
+    return await db.collection('books').aggregate([
+        {$match: {year: {$gt: 2000}}},
+        {
+            $project: {
+                _id: 0,
+                title: 1,
+                author: 1,
+                year: 1
+            }
+        }
+    ]).toArray();
+}
+
+async function aggregateBreakArray() {
+    return await db.collection('books').aggregate([
+        {$unwind: "$genres"}
+    ]).toArray();
+}
+
+async function aggregateJoinLogs() {
+    return await db.collection('books').aggregate([
+        {
+            $lookup: {
+                from: "logs",
+                localField: "_id",
+                foreignField: "book_id",
+                as: "logs",
+            },
+        }
+    ]).toArray()
+}
 
 module.exports = {
     insertDoc,
@@ -96,5 +141,9 @@ module.exports = {
     getBooksSkipLimit,
     getBooksYearInt,
     getBooksExcludeGenres,
-
+    deleteBookByYear,
+    filterBooksByYear,
+    aggregateBooksInclude,
+    aggregateBreakArray,
+    aggregateJoinLogs
 }

@@ -88,6 +88,53 @@ const getBooksExcludeGenres = async function (req, res, next) {
     }
 }
 
+const deleteBookByYear = async function (req, res, next) {
+    try {
+        let {year}= req.query;
+        year = Number(year);
+        const books = await bookService.deleteBookByYear(year);
+        res.status(200).json({message: "Books deleted successfully",success:true,data:books });
+    }catch (err){
+        next(err)
+    }
+}
+
+const filterBooksByYear = async function (req, res, next) {
+    try {
+        const books = await bookService.filterBooksByYear();
+        res.status(200).json({message: "Books filtered successfully",success:true,data:books });
+    }catch (err){
+        next(err);
+    }
+}
+
+const aggregateBooksInclude = async function (req, res, next) {
+    try {
+        const books = await bookService.aggregateBooksInclude();
+        res.status(200).json({message: "Books aggregated successfully",success:true,data:books });
+    }catch (err){
+        next(err);
+    }
+}
+
+const aggregateBreakArray = async function (req, res, next) {
+    try {
+        const books = await bookService.aggregateBreakArray();
+        res.status(200).json({message: "Books aggregated successfully",success:true,data:books });
+    }catch (err){
+        next(err);
+    }
+}
+
+const aggregateJoinLogs = async function (req, res, next) {
+    try {
+        const books = await bookService.aggregateJoinLogs();
+        res.status(200).json({message: "Books aggregated successfully",success:true,data:books });
+    }catch (err){
+        next(err);
+    }
+}
+
 module.exports = {
     insertDoc,
     insertMultiDocs,
@@ -98,5 +145,9 @@ module.exports = {
     getBooksSkipLimit,
     getBooksYearInt,
     getBooksExcludeGenres,
-
+    deleteBookByYear,
+    filterBooksByYear,
+    aggregateBooksInclude,
+    aggregateBreakArray,
+    aggregateJoinLogs
 }

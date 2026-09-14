@@ -37,6 +37,26 @@ async function getBooksExcludeGenres() {
     return await bookRepository.getBooksExcludeGenres()
 }
 
+async function deleteBookByYear(year) {
+    return await bookRepository.deleteBookByYear(year)
+}
+
+async function filterBooksByYear(){
+    return await bookRepository.filterBooksByYear()
+}
+
+async function aggregateBooksInclude(){
+    return await bookRepository.aggregateBooksInclude()
+}
+
+async function aggregateBreakArray(){
+    return await bookRepository.aggregateBreakArray()
+}
+
+async function aggregateJoinLogs(){
+    return await bookRepository.aggregateJoinLogs()
+}
+
 module.exports = {
     insertDoc,
     insertMultiDocs,
@@ -47,5 +67,9 @@ module.exports = {
     getBooksSkipLimit,
     getBooksYearInt,
     getBooksExcludeGenres,
-
+    deleteBookByYear,
+    filterBooksByYear,
+    aggregateBooksInclude,
+    aggregateBreakArray,
+    aggregateJoinLogs
 }
